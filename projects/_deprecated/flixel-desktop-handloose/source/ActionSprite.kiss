@@ -1,3 +1,0 @@
-(defNew [&prop :Void->Void action
-            &prop :ArrowDir dir]
-    (super))

@@ -1,6 +1,0 @@
--lib kiss
--cp src
---main leet_code.Main
--dce full
---python main.py
--cmd bash test-python.sh

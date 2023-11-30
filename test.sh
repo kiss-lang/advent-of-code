@@ -1,29 +1,15 @@
 #! /bin/bash
 
-KISS_TARGET=${KISS_TARGET:-$1}
-KISS_TARGET=${KISS_TARGET:-interp}
-
-# Test projects with test-project.sh
-if [ -n "$KISS_PROJECT" ]
-then
-    ./test-project.sh
-# Test Kiss with utest cases in kiss/src/test/cases
-else
-    # If CI is running tests, basic dependencies need to be installed
-    if [ -n "$CI_OS_NAME" ]
-    then
-        git clone https://github.com/kiss-lang/kiss
-        (cd kiss && lix download)
-        if [ "$KISS_TARGET" = cpp ]; then
-            (cd kiss && lix install haxelib:hxcpp)
-        elif [ "$KISS_TARGET" = nodejs ]; then
-            (cd kiss && lix install haxelib:hxnodejs)
-        fi
-    fi
-
-    if [ ! -z "$2" ]; then
-        (cd kiss && haxe -D cases=$2 build-scripts/common-args.hxml build-scripts/common-test-args.hxml build-scripts/$KISS_TARGET/test.hxml)
-    else
-        (cd kiss && haxe build-scripts/common-args.hxml build-scripts/common-test-args.hxml build-scripts/$KISS_TARGET/test.hxml)
-    fi
-fi
+DAYS=${1:-1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}
+YEARS=${2:-2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027}
+DEFINITIONS=""
+IFS=',' read -ra SPLIT_DAYS <<< "$DAYS"
+for day in "${SPLIT_DAYS[@]}"; do
+    DEFINITIONS="$DEFINITIONS -D day$day"
+done
+IFS=',' read -ra SPLIT_YEARS <<< "$YEARS"
+for year in "${SPLIT_YEARS[@]}"; do
+    DEFINITIONS="$DEFINITIONS -D year$year"
+done
+echo $DEFINITIONS
+haxe -D days=$DAYS -D years=$YEARS $DEFINITIONS build.hxml

@@ -1,6 +1,0 @@
-TestNewProject
-NQNStudios
-https://github.com/NQNStudios/kisslang
-LGPL
-test
-test kiss new-project
